@@ -6,7 +6,6 @@ pipeline {
     agent { 
         label 'master'
         }
-    triggers { pollSCM('* * * * *') }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
@@ -18,14 +17,6 @@ pipeline {
                 dir ('docker/toolbox') {
                 	sh 'docker build -t osymon/toolbox:latest . '
                 }
-            }
-        }
-        stage("docker push") {
-            steps {
-                echo " ============== start pushing image =================="
-                sh '''
-                docker push osymon/toolbox:latest
-                '''
             }
         }
     }
